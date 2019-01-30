@@ -1,0 +1,55 @@
+rule_files:
+  - prometheus_alerts.yaml
+
+evaluation_interval: 1m
+
+tests:
+- interval: 1m
+  input_series:
+  - series: 'ceph_health_status{job="ceph",instance="instance:9283"}'
+    values: '0 1'
+  alert_rule_test:
+  - eval_time: 1m
+    alertname: CephHealthStatusWarn
+    exp_alerts:
+    - exp_labels:
+        job: ceph
+        instance: 'instance:9283'
+        severity: warning
+      exp_annotations:
+        message: 'Ceph Healh status is WARN.'
+        runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuswarn
+
+- interval: 1m
+  input_series:
+  - series: 'ceph_health_status{job="ceph",instance="instance:9283"}'
+    values: '0 2'
+  alert_rule_test:
+  - eval_time: 1m
+    alertname: CephHealthStatusErr
+    exp_alerts:
+    - exp_labels:
+        job: ceph
+        instance: 'instance:9283'
+        severity: critical
+      exp_annotations:
+        message: 'Ceph Healh status is ERR.'
+        runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuserr
+
+- interval: 1m
+  input_series:
+  - series: 'ceph_pg_clean{job="ceph",instance="instance:9283"}'
+    values: '128 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100'
+  - series: 'ceph_pg_total{job="ceph",instance="instance:9283"}'
+    values: '128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128'
+  alert_rule_test:
+  - eval_time: 16m
+    alertname: CephPGAreUnclean
+    exp_alerts:
+    - exp_labels:
+        job: ceph
+        instance: 'instance:9283'
+        severity: warning
+      exp_annotations:
+        message: 'Placement Groups are not clean.'
+        runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean

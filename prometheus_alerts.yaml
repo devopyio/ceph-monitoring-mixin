@@ -1,0 +1,101 @@
+groups:
+- name: ceph-absent
+  rules:
+  - alert: CephMgrIsAbsent
+    annotations:
+      message: Ceph Manager has disappeared from Prometheus target discovery.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrisabsent
+    expr: |
+      absent(up{job="ceph"} == 1)
+    for: 5m
+    labels:
+      severity: critical
+- name: ceph-down
+  rules:
+  - alert: CephMgrIsMissingReplicas
+    annotations:
+      message: Ceph Manager is missing replicas.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrismissingreplicas
+    expr: |
+      sum(up{job="ceph"}) != 3
+    for: 5m
+    labels:
+      severity: warning
+- name: ceph-pg
+  rules:
+  - alert: CephPGAreNotActive
+    annotations:
+      message: Placement Groups are not active.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
+    expr: |
+      ceph_pg_active{job="ceph"} != ceph_pg_total{job="ceph"}
+    labels:
+      severity: critical
+  - alert: CephPGAreUnclean
+    annotations:
+      message: Placement Groups are not clean.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
+    expr: |
+      ceph_pg_clean{job="ceph"} != ceph_pg_total{job="ceph"}
+    for: 15m
+    labels:
+      severity: warning
+- name: ceph-system
+  rules:
+  - alert: CephHealthStatusErr
+    annotations:
+      message: Ceph Healh status is ERR.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuserr
+    expr: "ceph_health_status{job=\"ceph\"} == 2 \n"
+    labels:
+      severity: critical
+  - alert: CephHealthStatusWarn
+    annotations:
+      message: Ceph Healh status is WARN.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuswarn
+    expr: |
+      ceph_health_status{job="ceph"} == 1
+    labels:
+      severity: warning
+  - alert: CephOSDDown
+    annotations:
+      message: Ceph OSD is down.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosddown
+    expr: |
+      sum(ceph_osd_up{job="ceph"}) != 3
+    labels:
+      severity: warning
+  - alert: CephOSDNotIn
+    annotations:
+      message: Ceph OSD is not in the cluster.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdnotin
+    expr: |
+      sum(ceph_osd_in{job="ceph"}) != 3
+    labels:
+      severity: warning
+  - alert: CephOSDVersionMismatch
+    annotations:
+      message: There are {{ $value }} different versions of Ceph OSD components running.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdversionmismatch
+    expr: |
+      count(count(ceph_osd_metadata{job="ceph"}) by (ceph_version)) > 1
+    for: 1h
+    labels:
+      severity: warning
+  - alert: CephMonVersionMismatch
+    annotations:
+      message: There are {{ $value }} different versions of Ceph OSD components running.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonversionmismatch
+    expr: |
+      count(count(ceph_mon_metadata{job="ceph"}) by (ceph_version)) > 1
+    for: 1h
+    labels:
+      severity: warning
+  - alert: CephMonQuorumStatus
+    annotations:
+      message: Ceph Healh status is ERR.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonquorumstatus
+    expr: |
+      ceph_mon_quorum_status{job="ceph"} != 3
+    labels:
+      severity: critical
