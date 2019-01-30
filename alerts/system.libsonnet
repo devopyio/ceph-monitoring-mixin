@@ -81,7 +81,7 @@
           {
             alert: 'CephMonQuorumStatus',
             expr: |||
-              ceph_mon_quorum_status{%(cephMgrSelector)s} != %(cephMonCount)d
+              sum(ceph_mon_quorum_status{%(cephMgrSelector)s}) != %(cephMonCount)d
             ||| % $._config,
             labels: {
               severity: 'critical',
