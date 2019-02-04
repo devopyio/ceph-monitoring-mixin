@@ -10,6 +10,35 @@ Matthew Skelton & Rob Thatcher have an excellent [run book template](https://git
 This page collects this repositories alerts and begins the process of describing what they mean and how it might be addressed. Links from alerts to this page are added [automatically](https://github.com/devopyio/ceph-monitoring-mixin/blob/master/alerts/add-runbook-links.libsonnet).
 
 
+### Group Name: "ceph-osd"
+##### Alert Name: "CephOSDDown"
++ *Message*: `Ceph OSD is down.`
++ *Severity*: warning
+
+URL: http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-osd/#osd-not-running
+
+##### Alert Name: "CephOSDNotIn"
++ *Message*: `Ceph OSD is down.`
++ *Severity*: warning
+
+URL:
+
+http://docs.ceph.com/docs/mimic/rados/operations/monitoring-osd-pg/#monitoring-osds
+http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-osd/#osd-not-running
+
+##### Alert Name: "CephOSDLowSpace"
++ *Message*: `Ceph OSD used more than 85 % of disk space.`
++ *Severity*: warning
+
+URL:
+
+http://docs.ceph.com/docs/mimic/rados/configuration/mon-config-ref/#storage-capacity
+http://docs.ceph.com/docs/mimic/rados/operations/add-or-rm-osds/
+
+### Group Name: ""
+
+
 ## Other Ceph Runbooks and troubleshooting
 
 + [Troubleshooting PGS](http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-pg/#troubleshooting-pg-errors)
++ [Health checks](http://docs.ceph.com/docs/mimic/rados/operations/health-checks/)

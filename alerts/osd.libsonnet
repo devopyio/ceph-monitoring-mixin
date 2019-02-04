@@ -2,33 +2,8 @@
   prometheusAlerts+:: {
     groups+: [
       {
-        name: 'ceph-pg',
+        name: 'ceph-osd',
         rules: [
-          {
-            alert: 'CephPGAreNotActive',
-            expr: |||
-              ceph_pg_total{%(cephMgrSelector)s} - ceph_pg_active{%(cephMgrSelector)s} != 0
-            ||| % $._config,
-            labels: {
-              severity: 'critical',
-            },
-            annotations: {
-              message: 'Some Placement Groups are not active.',
-            },
-          },
-          {
-            alert: 'CephPGAreUnclean',
-            expr: |||
-              ceph_pg_total{%(cephMgrSelector)s} - ceph_pg_clean{%(cephMgrSelector)s} != 0
-            ||| % $._config,
-            'for': '30m',
-            labels: {
-              severity: 'warning',
-            },
-            annotations: {
-              message: 'Placement groups contain objects that are not replicated the desired number of times. They should be recovering.',
-            },
-          },
           {
             alert: 'CephOSDDown',
             expr: |||
@@ -56,13 +31,13 @@
           {
             alert: 'CephOSDLowSpace',
             expr: |||
-              (ceph_osd_stat_bytes_used{%(cephMgrSelector)s} / ceph_osd_stat_bytes{%(cephMgrSelector)s}) * 100 > 90
+              (ceph_osd_stat_bytes_used{%(cephMgrSelector)s} / ceph_osd_stat_bytes{%(cephMgrSelector)s}) * 100 > 85
             ||| % $._config,
             labels: {
               severity: 'warning',
             },
             annotations: {
-              message: '{{$labels.ceph_daemon}} Ceph OSD used more than 90 % of disk space.',
+              message: '{{$labels.ceph_daemon}} Ceph OSD used more than 85 % of disk space.',
             },
           },
         ],

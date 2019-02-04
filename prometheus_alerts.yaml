@@ -21,26 +21,8 @@ groups:
     for: 5m
     labels:
       severity: warning
-- name: ceph-pg
+- name: ceph-osd
   rules:
-  - alert: CephPGAreNotActive
-    annotations:
-      message: Some Placement Groups are not active.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
-    expr: |
-      ceph_pg_total{job="ceph"} - ceph_pg_active{job="ceph"} != 0
-    labels:
-      severity: critical
-  - alert: CephPGAreUnclean
-    annotations:
-      message: Placement groups contain objects that are not replicated the desired
-        number of times. They should be recovering.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
-    expr: |
-      ceph_pg_total{job="ceph"} - ceph_pg_clean{job="ceph"} != 0
-    for: 30m
-    labels:
-      severity: warning
   - alert: CephOSDDown
     annotations:
       message: '{{$labels.ceph_daemon}} Ceph OSD is down.'
@@ -60,10 +42,30 @@ groups:
       severity: warning
   - alert: CephOSDLowSpace
     annotations:
-      message: '{{$labels.ceph_daemon}} Ceph OSD used more than 90 % of disk space.'
+      message: '{{$labels.ceph_daemon}} Ceph OSD used more than 85 % of disk space.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdlowspace
     expr: |
-      (ceph_osd_stat_bytes_used{job="ceph"} / ceph_osd_stat_bytes{job="ceph"}) * 100 > 90
+      (ceph_osd_stat_bytes_used{job="ceph"} / ceph_osd_stat_bytes{job="ceph"}) * 100 > 85
+    labels:
+      severity: warning
+- name: ceph-pg
+  rules:
+  - alert: CephPGAreNotActive
+    annotations:
+      message: Some Placement Groups are not active.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
+    expr: |
+      ceph_pg_total{job="ceph"} - ceph_pg_active{job="ceph"} != 0
+    labels:
+      severity: critical
+  - alert: CephPGAreUnclean
+    annotations:
+      message: Placement groups contain objects that are not replicated the desired
+        number of times. They should be recovering.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
+    expr: |
+      ceph_pg_total{job="ceph"} - ceph_pg_clean{job="ceph"} != 0
+    for: 30m
     labels:
       severity: warning
 - name: ceph-system
