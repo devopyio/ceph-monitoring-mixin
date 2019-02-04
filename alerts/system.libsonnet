@@ -54,18 +54,6 @@
               message: 'There are {{ $value }} different versions of Ceph OSD components running.',
             },
           },
-          {
-            alert: 'CephMonQuorumStatus',
-            expr: |||
-              sum(ceph_mon_quorum_status{%(cephMgrSelector)s}) != %(cephMonCount)d
-            ||| % $._config,
-            labels: {
-              severity: 'critical',
-            },
-            annotations: {
-              message: 'Ceph Healh status is ERR.',
-            },
-          },
         ],
       },
     ],

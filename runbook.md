@@ -15,7 +15,9 @@ This page collects this repositories alerts and begins the process of describing
 + *Message*: `Ceph OSD is down.`
 + *Severity*: warning
 
-URL: http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-osd/#osd-not-running
+URL:
+
+http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-osd/#osd-not-running
 
 ##### Alert Name: "CephOSDNotIn"
 + *Message*: `Ceph OSD is down.`
@@ -35,8 +37,30 @@ URL:
 http://docs.ceph.com/docs/mimic/rados/configuration/mon-config-ref/#storage-capacity
 http://docs.ceph.com/docs/mimic/rados/operations/add-or-rm-osds/
 
-### Group Name: ""
+### Group Name: "ceph-pg"
+##### Alert Name: "CephPGAreNotActive"
++ *Message*: `Some Placement Groups are not active.`
++ *Severity*: critical
 
+```
+ceph pg dump_stuck inactive
+```
+
+URL:
+
+http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-pg/#stuck-placement-groups
+
+##### Alert Name: "CephPGAreUnclean"
++ *Message*: `Placement groups contain objects that are not replicated the desired number of times. They should be recovering.`
++ *Severity*: warning
+
+```
+ceph pg dump_stuck unclean
+```
+
+URL:
+
+http://docs.ceph.com/docs/mimic/rados/troubleshooting/troubleshooting-pg/#stuck-placement-groups
 
 ## Other Ceph Runbooks and troubleshooting
 

@@ -48,6 +48,45 @@ groups:
       (ceph_osd_stat_bytes_used{job="ceph"} / ceph_osd_stat_bytes{job="ceph"}) * 100 > 85
     labels:
       severity: warning
+- name: ceph-mon
+  rules:
+  - alert: CephMonInsufficientMembers
+    annotations:
+      message: 'Ceph Monitor "{{ $labels.job }}": insufficient members ({{ $value
+        }}).'
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmoninsufficientmembers
+    expr: |
+      sum(ceph_mon_quorum_status{job="ceph"} == bool 1) by (job) < ((count(ceph_mon_quorum_status{job="ceph"}) by (job) + 1) / 2)
+    labels:
+      severity: warning
+  - alert: CephMonNoQuorum
+    annotations:
+      message: 'Ceph Monitor "{{ $labels.job }}": member {{ $labels.instance }} has
+        no quorum.'
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonnoquorum
+    expr: |
+      ceph_mon_quorum_status{job="ceph"} == 0
+    for: 1m
+    labels:
+      severity: critical
+  - alert: CephMonHighNumberOfLeaderChanges
+    annotations:
+      message: 'Ceph Monitor "{{ $labels.job }}": instance {{ $labels.instance }}
+        has seen {{ $value }} leader changes within the last 30 minutes.'
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonhighnumberofleaderchanges
+    expr: |
+      rate(ceph_mon_num_elections{job="ceph"}[15m]) > 3
+    for: 15m
+    labels:
+      severity: warning
+  - alert: CephMonQuorumStatus
+    annotations:
+      message: Ceph Monitor reporting bad quorum status.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonquorumstatus
+    expr: |
+      ceph_mon_quorum_status{job="ceph"} != 1
+    labels:
+      severity: critical
 - name: ceph-pg
   rules:
   - alert: CephPGAreNotActive
@@ -103,11 +142,3 @@ groups:
     for: 1h
     labels:
       severity: warning
-  - alert: CephMonQuorumStatus
-    annotations:
-      message: Ceph Healh status is ERR.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonquorumstatus
-    expr: |
-      sum(ceph_mon_quorum_status{job="ceph"}) != 3
-    labels:
-      severity: critical
