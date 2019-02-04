@@ -60,7 +60,7 @@ groups:
       severity: warning
   - alert: CephOSDLowSpace
     annotations:
-      message: '{{$labels.ceph_daemon}} Ceph OSD used more than 90 % of disk space'
+      message: '{{$labels.ceph_daemon}} Ceph OSD used more than 90 % of disk space.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdlowspace
     expr: |
       (ceph_osd_stat_bytes_used{job="ceph"} / ceph_osd_stat_bytes{job="ceph"}) * 100 > 90

@@ -62,10 +62,9 @@
               severity: 'warning',
             },
             annotations: {
-              message: '{{$labels.ceph_daemon}} Ceph OSD used more than 90 % of disk space',
+              message: '{{$labels.ceph_daemon}} Ceph OSD used more than 90 % of disk space.',
             },
           },
-
         ],
       },
     ],
