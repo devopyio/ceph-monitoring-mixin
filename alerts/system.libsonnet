@@ -29,30 +29,6 @@
             },
           },
           {
-            alert: 'CephOSDDown',
-            expr: |||
-              sum(ceph_osd_up{%(cephMgrSelector)s}) != %(cephOsdCount)d
-            ||| % $._config,
-            labels: {
-              severity: 'warning',
-            },
-            annotations: {
-              message: 'Ceph OSD is down.',
-            },
-          },
-          {
-            alert: 'CephOSDNotIn',
-            expr: |||
-              sum(ceph_osd_in{%(cephMgrSelector)s}) != %(cephOsdCount)d
-            ||| % $._config,
-            labels: {
-              severity: 'warning',
-            },
-            annotations: {
-              message: 'Ceph OSD is not in the cluster.',
-            },
-          },
-          {
             alert: 'CephOSDVersionMismatch',
             expr: |||
               count(count(ceph_osd_metadata{%(cephMgrSelector)s}) by (ceph_version)) > 1
@@ -90,7 +66,6 @@
               message: 'Ceph Healh status is ERR.',
             },
           },
-
         ],
       },
     ],

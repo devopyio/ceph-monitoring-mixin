@@ -39,11 +39,11 @@ tests:
 - interval: 1m
   input_series:
   - series: 'ceph_pg_clean{job="ceph",instance="instance:9283"}'
-    values: '128 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100'
+    values: '128 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100'
   - series: 'ceph_pg_total{job="ceph",instance="instance:9283"}'
-    values: '128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128'
+    values: '128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128'
   alert_rule_test:
-  - eval_time: 16m
+  - eval_time: 31m
     alertname: CephPGAreUnclean
     exp_alerts:
     - exp_labels:
@@ -51,5 +51,5 @@ tests:
         instance: 'instance:9283'
         severity: warning
       exp_annotations:
-        message: 'Placement Groups are not clean.'
+        message: 'Placement groups contain objects that are not replicated the desired number of times. They should be recovering.'
         runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
