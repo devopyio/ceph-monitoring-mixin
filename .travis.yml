@@ -1,1 +1,8 @@
-language: minimal
+language: generic 
+dist: xenial
+addons:
+  snaps:
+  - jsonnet
+install: make setup
+before_script: 	jsonnet -version
+script: make
