@@ -1,5 +1,8 @@
+![ceph-monitoring-mixin](http://devopy.io/wp-content/uploads/2019/02/ceph-monitoring-mixin-200.png)
+
 # Ceph monitoring mixin
 
+![Build Status](https://travis-ci.com/devopyio/ceph-monitoring-mixin.svg?branch=master)
 > NOTE: This project is *alpha* stage. Flags, configuration, behaviour and design may change significantly in following releases.
 
 A set of Grafana dashboards and Prometheus alerts for Ceph.
