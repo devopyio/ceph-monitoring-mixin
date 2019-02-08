@@ -7,6 +7,7 @@ setup_jsonnet:
 
 
 setup:
+	go get -u github.com/prometheus/prometheus/cmd/promtool
 	go get -u github.com/devopyio/yamlfmt
 	go get -u github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
 
