@@ -3,6 +3,7 @@ JSONNET_FMT := jsonnet fmt -n 2 --max-blank-lines 2 --string-style s --comment-s
 all: fmt prometheus_alerts.yaml lint yamlfmt test
 
 setup:
+	go get -u github.com/google/go-jsonnet/jsonnet
 	go get -u github.com/devopyio/yamlfmt
 	go get -u github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
 
