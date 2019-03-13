@@ -9,7 +9,7 @@ Matthew Skelton & Rob Thatcher have an excellent [run book template](https://git
 
 This page collects this repositories alerts and begins the process of describing what they mean and how it might be addressed. Links from alerts to this page are added [automatically](https://github.com/devopyio/ceph-monitoring-mixin/blob/master/alerts/add-runbook-links.libsonnet).
 
-### Group NameL "systemd"
+### Group Name: "systemd"
 
 ##### Alert Name: "CephSystemdUnitIsNotActive"
 + *Message*: `Ceph Systemd Unit Is Not Active`
