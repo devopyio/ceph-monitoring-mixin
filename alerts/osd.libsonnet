@@ -14,6 +14,8 @@
             },
             annotations: {
               message: '{{$labels.ceph_daemon}} Ceph OSD is down.',
+              component: 'ceph-osd',
+              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
           {
@@ -26,6 +28,8 @@
             },
             annotations: {
               message: '{{$labels.ceph_daemon}} Ceph OSD is out of the cluster, CRUSH will not assign placement groups to the OSD.',
+              component: 'ceph-osd',
+              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
           {
@@ -38,6 +42,8 @@
             },
             annotations: {
               message: '{{$labels.ceph_daemon}} Ceph OSD used more than 85 % of disk space.',
+              component: 'ceph-osd',
+              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
         ],
