@@ -11,10 +11,12 @@
             ||| % $._config,
             'for': '5m',
             labels: {
-              severity: 'critical',
+              severity: 'warning',
             },
             annotations: {
               message: 'Ceph Manager has disappeared from Prometheus target discovery.',
+              component: 'ceph-manager',
+              grafana_url: '%(grafanaMgrDashboardURL)s' % $._config,
             },
           },
         ],
@@ -33,6 +35,8 @@
             },
             annotations: {
               message: 'Ceph Manager is missing replicas.',
+              component: 'ceph-manager',
+              grafana_url: '%(grafanaMgrDashboardURL)s' % $._config,
             },
           },
         ],

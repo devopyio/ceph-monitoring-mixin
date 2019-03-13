@@ -14,6 +14,8 @@
             },
             annotations: {
               message: 'Some Placement Groups are not active.',
+              component: 'ceph-osd',
+              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
           {
@@ -27,6 +29,8 @@
             },
             annotations: {
               message: 'Placement groups contain objects that are not replicated the desired number of times. They should be recovering.',
+              component: 'ceph-osd',
+              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
         ],

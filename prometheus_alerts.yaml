@@ -3,17 +3,21 @@ groups:
   rules:
   - alert: CephMgrIsAbsent
     annotations:
+      component: ceph-manager
+      grafana_url: ""
       message: Ceph Manager has disappeared from Prometheus target discovery.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrisabsent
     expr: |
       absent(up{job="ceph"} == 1)
     for: 5m
     labels:
-      severity: critical
+      severity: warning
 - name: ceph-down
   rules:
   - alert: CephMgrIsMissingReplicas
     annotations:
+      component: ceph-manager
+      grafana_url: ""
       message: Ceph Manager is missing replicas.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrismissingreplicas
     expr: |
@@ -25,6 +29,8 @@ groups:
   rules:
   - alert: CephOSDDown
     annotations:
+      component: ceph-osd
+      grafana_url: ""
       message: '{{$labels.ceph_daemon}} Ceph OSD is down.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosddown
     expr: |
@@ -33,6 +39,8 @@ groups:
       severity: warning
   - alert: CephOSDNotIn
     annotations:
+      component: ceph-osd
+      grafana_url: ""
       message: '{{$labels.ceph_daemon}} Ceph OSD is out of the cluster, CRUSH will
         not assign placement groups to the OSD.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdnotin
@@ -42,6 +50,8 @@ groups:
       severity: warning
   - alert: CephOSDLowSpace
     annotations:
+      component: ceph-osd
+      grafana_url: ""
       message: '{{$labels.ceph_daemon}} Ceph OSD used more than 85 % of disk space.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdlowspace
     expr: |
@@ -52,6 +62,8 @@ groups:
   rules:
   - alert: CephMonInsufficientMembers
     annotations:
+      component: ceph-monitor
+      grafana_url: ""
       message: 'Ceph Monitor "{{ $labels.job }}": insufficient members ({{ $value
         }}).'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmoninsufficientmembers
@@ -61,6 +73,8 @@ groups:
       severity: warning
   - alert: CephMonNoQuorum
     annotations:
+      component: ceph-monitor
+      grafana_url: ""
       message: 'Ceph Monitor "{{ $labels.job }}": member {{ $labels.instance }} has
         no quorum.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonnoquorum
@@ -71,6 +85,8 @@ groups:
       severity: critical
   - alert: CephMonHighNumberOfLeaderChanges
     annotations:
+      component: ceph-monitor
+      grafana_url: ""
       message: 'Ceph Monitor "{{ $labels.job }}": instance {{ $labels.instance }}
         has seen {{ $value }} leader changes within the last 30 minutes.'
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonhighnumberofleaderchanges
@@ -81,6 +97,8 @@ groups:
       severity: warning
   - alert: CephMonQuorumStatus
     annotations:
+      component: ceph-monitor
+      grafana_url: ""
       message: Ceph Monitor reporting bad quorum status.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonquorumstatus
     expr: |
@@ -91,6 +109,8 @@ groups:
   rules:
   - alert: CephPGAreNotActive
     annotations:
+      component: ceph-osd
+      grafana_url: ""
       message: Some Placement Groups are not active.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
     expr: |
@@ -99,6 +119,8 @@ groups:
       severity: critical
   - alert: CephPGAreUnclean
     annotations:
+      component: ceph-osd
+      grafana_url: ""
       message: Placement groups contain objects that are not replicated the desired
         number of times. They should be recovering.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
@@ -111,6 +133,8 @@ groups:
   rules:
   - alert: CephHealthStatusErr
     annotations:
+      component: general
+      grafana_url: ""
       message: Ceph Healh status is ERR.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuserr
     expr: "ceph_health_status{job=\"ceph\"} == 2 \n"
@@ -118,6 +142,8 @@ groups:
       severity: critical
   - alert: CephHealthStatusWarn
     annotations:
+      component: general
+      grafana_url: ""
       message: Ceph Healh status is WARN.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuswarn
     expr: |
@@ -126,6 +152,8 @@ groups:
       severity: warning
   - alert: CephOSDVersionMismatch
     annotations:
+      component: ceph-osd
+      grafana_url: ""
       message: There are {{ $value }} different versions of Ceph OSD components running.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdversionmismatch
     expr: |
@@ -135,6 +163,8 @@ groups:
       severity: warning
   - alert: CephMonVersionMismatch
     annotations:
+      component: ceph-monitor
+      grafana_url: ""
       message: There are {{ $value }} different versions of Ceph OSD components running.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonversionmismatch
     expr: |
@@ -142,3 +172,15 @@ groups:
     for: 1h
     labels:
       severity: warning
+- name: systemd
+  rules:
+  - alert: CephSystemdUnitIsNotActive
+    annotations:
+      component: general
+      grafana_url: ""
+      message: Systemd unit {{$labels.name}} is not active.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephsystemdunitisnotactive
+    expr: |
+      node_systemd_unit_state{name=~"ceph.*", state="active"} != 1
+    labels:
+      severity: critical

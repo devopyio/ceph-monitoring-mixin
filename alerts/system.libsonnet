@@ -14,6 +14,8 @@
             },
             annotations: {
               message: 'Ceph Healh status is ERR.',
+              component: 'general',
+              grafana_url: '%(grafanaClusterDashboardURL)s' % $._config,
             },
           },
           {
@@ -26,6 +28,8 @@
             },
             annotations: {
               message: 'Ceph Healh status is WARN.',
+              component: 'general',
+              grafana_url: '%(grafanaClusterDashboardURL)s' % $._config,
             },
           },
           {
@@ -39,6 +43,8 @@
             },
             annotations: {
               message: 'There are {{ $value }} different versions of Ceph OSD components running.',
+              component: 'ceph-osd',
+              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
           {
@@ -52,6 +58,8 @@
             },
             annotations: {
               message: 'There are {{ $value }} different versions of Ceph OSD components running.',
+              component: 'ceph-monitor',
+              grafana_url: '%(grafanaMonDashboardURL)s' % $._config,
             },
           },
         ],

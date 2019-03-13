@@ -18,7 +18,9 @@ tests:
         severity: warning
       exp_annotations:
         message: 'Ceph Healh status is WARN.'
+        component: general
         runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuswarn
+        grafana_url: ''
 
 - interval: 1m
   input_series:
@@ -34,7 +36,9 @@ tests:
         severity: critical
       exp_annotations:
         message: 'Ceph Healh status is ERR.'
+        component: general
         runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuserr
+        grafana_url: ''
 
 - interval: 1m
   input_series:
@@ -52,7 +56,9 @@ tests:
         severity: warning
       exp_annotations:
         message: 'Placement groups contain objects that are not replicated the desired number of times. They should be recovering.'
+        component: 'ceph-osd'
         runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
+        grafana_url: ''
 
 - interval: 1m
   input_series:
@@ -71,4 +77,6 @@ tests:
         severity: warning
       exp_annotations:
         message: 'osd.0 Ceph OSD used more than 85 % of disk space.'
+        component: 'ceph-osd'
         runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdlowspace
+        grafana_url: ''
