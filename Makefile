@@ -1,10 +1,9 @@
 JSONNET_FMT := jsonnet fmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
-
-all: fmt prometheus_alerts.yaml lint yamlfmt test
+JSONNET_LINT := jsonnet-lint
+all: fmt prometheus_alerts.yaml check yamlfmt test
 
 setup_jsonnet:
 	bash setup_jsonnet.sh
-
 
 setup:
 	go get -u github.com/prometheus/prometheus/cmd/promtool
@@ -19,7 +18,7 @@ fmt:
 prometheus_alerts.yaml: mixin.libsonnet lib/alerts.jsonnet alerts/*.libsonnet
 	jsonnet -S lib/alerts.jsonnet > $@
 
-lint: prometheus_alerts.yaml
+check: prometheus_alerts.yaml
 	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
 		while read f; do \
 			$(JSONNET_FMT) "$$f" | diff -u "$$f" -; \
@@ -30,7 +29,7 @@ lint: prometheus_alerts.yaml
 clean:
 	rm -rf prometheus_alerts.yaml
 
-yamlfmt: 
+yamlfmt: prometheus_alerts.yaml
 	yamlfmt -filename prometheus_alerts.yaml
 
 test: prometheus_alerts.yaml
