@@ -1,9 +1,7 @@
 language: generic 
 dist: xenial
-addons:
-  apt:
-    packages:
-    - go-1.12
+go:
+- "1.12"
 install: make setup_all
 before_script: 
   - export PATH=$PATH:$PWD
