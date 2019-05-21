@@ -1,4 +1,4 @@
-JSONNET_FMT := jsonnet fmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
+JSONNET_FMT := jsonnetfmt -n 2 --max-blank-lines 2 --string-style s --comment-style s
 JSONNET_LINT := jsonnet-lint
 all: fmt prometheus_alerts.yaml check yamlfmt test
 
@@ -16,7 +16,7 @@ fmt:
 	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | xargs -n 1 -- $(JSONNET_FMT) -i
 
 prometheus_alerts.yaml: mixin.libsonnet lib/alerts.jsonnet alerts/*.libsonnet
-	jsonnet -S lib/alerts.jsonnet > $@
+	jsonnet -J vendor -S lib/alerts.jsonnet > $@
 
 check: prometheus_alerts.yaml
 	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \

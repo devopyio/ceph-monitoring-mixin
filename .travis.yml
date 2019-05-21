@@ -1,5 +1,7 @@
-language: generic 
+language: go 
 dist: xenial
+go:
+- "1.12"
 install: make setup_all
 before_script: 
   - export PATH=$PATH:$PWD

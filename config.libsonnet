@@ -1,7 +1,12 @@
-{
+local ceph = import 'ceph-mixins/mixin.libsonnet';
+
+ceph {
   _config+:: {
     // Selectors are inserted between {} in Prometheus queries.
+    // TODO:
     cephMgrSelector: 'job="ceph"',
+
+    cephExporterSelector: 'job="ceph"',
 
     cephSystemdUnitSelector: 'name=~"ceph.*"',
 
