@@ -59,24 +59,3 @@ tests:
         component: 'ceph-osd'
         runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgareunclean
         grafana_url: ''
-
-- interval: 1m
-  input_series:
-  - series: 'ceph_osd_stat_bytes_used{job="ceph",instance="instance:9283",ceph_daemon="osd.0"}'
-    values: '800 950'
-  - series: 'ceph_osd_stat_bytes{job="ceph",instance="instance:9283",ceph_daemon="osd.0"}'
-    values: '1024 1024'
-  alert_rule_test:
-  - eval_time: 2m
-    alertname: CephOSDLowSpace
-    exp_alerts:
-    - exp_labels:
-        job: ceph
-        instance: 'instance:9283'
-        ceph_daemon: 'osd.0'
-        severity: warning
-      exp_annotations:
-        message: 'osd.0 Ceph OSD used more than 85 % of disk space.'
-        component: 'ceph-osd'
-        runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdlowspace
-        grafana_url: ''

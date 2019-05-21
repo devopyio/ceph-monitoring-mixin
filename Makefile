@@ -16,7 +16,7 @@ fmt:
 	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | xargs -n 1 -- $(JSONNET_FMT) -i
 
 prometheus_alerts.yaml: mixin.libsonnet lib/alerts.jsonnet alerts/*.libsonnet
-	jsonnet -S lib/alerts.jsonnet > $@
+	jsonnet -J vendor -S lib/alerts.jsonnet > $@
 
 check: prometheus_alerts.yaml
 	find . -name 'vendor' -prune -o -name '*.libsonnet' -print -o -name '*.jsonnet' -print | \
