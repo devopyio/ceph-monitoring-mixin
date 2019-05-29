@@ -14,7 +14,6 @@
             },
             annotations: {
               message: 'Some Placement Groups are not active.',
-              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
             },
           },
           {
@@ -27,8 +26,7 @@
               severity: 'warning',
             },
             annotations: {
-              message: 'Placement groups contain objects that are not replicated the desired number of times. They should be recovering.',
-              grafana_url: '%(grafanaOSDDashboardURL)s' % $._config,
+              description: 'Placement groups contain objects that are not replicated the desired number of times. They should be recovering.',
             },
           },
         ],

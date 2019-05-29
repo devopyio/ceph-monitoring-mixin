@@ -31,5 +31,8 @@ ceph {
 
     // Grafana url for Ceph-Cluster dashboard
     grafanaMgrDashboardURL: '',
+    // Grafana url for Ceph-Cluster dashboard
+    grafanaMdsDashboardURL: '',
+
   },
 }
