@@ -12,7 +12,7 @@
     clusterVersionAlertTime: '10m',
     clusterUtilizationAlertTime: '5m',
     monQuorumAlertTime: '15m',
-    monQuorumLeaderChangesAlertTime: '30m',
+    monQuorumLeaderChangesAlertTime: '5m',
     osdDataRebalanceAlertTime: '15s',
     osdDataRecoveryAlertTime: '2h',
     osdDataRecoveryInProgressAlertTime: '30s',
@@ -21,6 +21,7 @@
     PGRepairAlertTime: '1h',
     mgrMissingReplicasAlertTime: '5m',
     mgrIsAbsentAlertTime: '5m',
+    mdsMissingReplicasAlertTime: '5m',
 
     // Constants
     storageType: 'ceph',

@@ -3,9 +3,18 @@
 # Ceph monitoring mixin
 
 ![Build Status](https://travis-ci.com/devopyio/ceph-monitoring-mixin.svg?branch=master)
-> NOTE: This project is *alpha* stage. Flags, configuration, behaviour and design may change significantly in following releases.
 
-A set of Grafana dashboards and Prometheus alerts for Ceph.
+A set of Grafana dashboards and Prometheus alerts for Ceph for use in Prometheus & Alertmanager.
+
+## Relationship with ceph-mixins
+
+We have contributed a lot of our alerting configuration to [ceph/ceph-mixins](https://github.com/ceph/ceph-mixins) repository.
+
+But currently, the state of play there is that maintainers don't allow us adding `grafana_url` and `runbook` annotations as they wouldn't look good in Open Shift Container Platform UI and doesn't fit their needs. See the issue https://github.com/ceph/ceph-mixins/issues/54.
+
+This repository adds an opinionated annotations to the alerting rules for running them in Prometheus and Alertmanager.
+
+If you are looking to use it with Open Shift Container Platform UI, please use [ceph/ceph-mixins](https://github.com/ceph/ceph-mixins) directly.
 
 ## How to use
 

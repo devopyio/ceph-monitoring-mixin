@@ -1,4 +1,45 @@
 groups:
+- name: ceph-mgr-status
+  rules:
+  - alert: CephMgrIsAbsent
+    annotations:
+      description: Ceph Manager has disappeared from Prometheus target discovery.
+      message: Storage metrics collector service not available anymore.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrisabsent
+      severity_level: warning
+      storage_type: ceph
+    expr: |
+      absent(up{job="ceph"} == 1)
+    for: 5m
+    labels:
+      severity: warning
+  - alert: CephMgrIsMissingReplicas
+    annotations:
+      description: Ceph Manager is missing replicas.
+      message: Storage metrics collector service doesn't have required no of replicas.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrismissingreplicas
+      severity_level: warning
+      storage_type: ceph
+    expr: |
+      sum(up{job="ceph"}) < 3
+    for: 5m
+    labels:
+      severity: warning
+- name: ceph-mds-status
+  rules:
+  - alert: CephMdsMissingReplicas
+    annotations:
+      description: Minimum required replicas for storage metadata service not available.
+        Might affect the working of storage cluster.
+      message: Insufficient replicas for storage metadata service.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmdsmissingreplicas
+      severity_level: warning
+      storage_type: ceph
+    expr: |
+      sum(ceph_mds_metadata{job="ceph"} == 1) < 2
+    for: 5m
+    labels:
+      severity: warning
 - name: quorum-alert.rules
   rules:
   - alert: CephMonQuorumAtRisk
@@ -9,10 +50,23 @@ groups:
       severity_level: error
       storage_type: ceph
     expr: |
-      count(ceph_mon_quorum_status == 1) <= ((count(ceph_mon_metadata) % 2) + 1)
+      count(ceph_mon_quorum_status{job="ceph"} == 1) <= ((count(ceph_mon_metadata{job="ceph"}) % 2) + 1)
     for: 15m
     labels:
       severity: critical
+  - alert: CephMonHighNumberOfLeaderChanges
+    annotations:
+      description: 'Ceph Monitor "{{ $labels.job }}": instance {{ $labels.instance
+        }} has seen {{ $value }} leader changes per minute recently.'
+      message: Storage Cluster has seen many leader changes recently.
+      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonhighnumberofleaderchanges
+      severity_level: warning
+      storage_type: ceph
+    expr: |
+      rate(ceph_mon_num_elections{job="ceph"}[5m]) * 60 > 0.95
+    for: 5m
+    labels:
+      severity: warning
 - name: ceph-node-alert.rules
   rules:
   - alert: CephNodeDown
@@ -24,7 +78,7 @@ groups:
       severity_level: error
       storage_type: ceph
     expr: |
-      cluster:ceph_node_down:join_kube
+      cluster:ceph_node_down:join_kube == 0
     for: 30s
     labels:
       severity: critical
@@ -162,7 +216,6 @@ groups:
   rules:
   - alert: CephPGAreNotActive
     annotations:
-      component: ceph-osd
       grafana_url: ""
       message: Some Placement Groups are not active.
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
@@ -172,7 +225,6 @@ groups:
       severity: critical
   - alert: CephPGAreUnclean
     annotations:
-      component: ceph-osd
       grafana_url: ""
       message: Placement groups contain objects that are not replicated the desired
         number of times. They should be recovering.
@@ -180,49 +232,6 @@ groups:
     expr: |
       ceph_pg_total{job="ceph"} - ceph_pg_clean{job="ceph"} != 0
     for: 30m
-    labels:
-      severity: warning
-- name: ceph-system
-  rules:
-  - alert: CephHealthStatusErr
-    annotations:
-      component: general
-      grafana_url: ""
-      message: Ceph Healh status is ERR.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuserr
-    expr: "ceph_health_status{job=\"ceph\"} == 2 \n"
-    labels:
-      severity: critical
-  - alert: CephHealthStatusWarn
-    annotations:
-      component: general
-      grafana_url: ""
-      message: Ceph Healh status is WARN.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephhealthstatuswarn
-    expr: |
-      ceph_health_status{job="ceph"} == 1
-    labels:
-      severity: warning
-  - alert: CephOSDVersionMismatch
-    annotations:
-      component: ceph-osd
-      grafana_url: ""
-      message: There are {{ $value }} different versions of Ceph OSD components running.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdversionmismatch
-    expr: |
-      count(count(ceph_osd_metadata{job="ceph"}) by (ceph_version)) > 1
-    for: 1h
-    labels:
-      severity: warning
-  - alert: CephMonVersionMismatch
-    annotations:
-      component: ceph-monitor
-      grafana_url: ""
-      message: There are {{ $value }} different versions of Ceph OSD components running.
-      runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmonversionmismatch
-    expr: |
-      count(count(ceph_mon_metadata{job="ceph"}) by (ceph_version)) > 1
-    for: 1h
     labels:
       severity: warning
 - name: systemd
