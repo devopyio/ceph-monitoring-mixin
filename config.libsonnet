@@ -3,9 +3,6 @@ local ceph = import 'ceph-mixins/mixin.libsonnet';
 ceph {
   _config+:: {
     // Selectors are inserted between {} in Prometheus queries.
-    // TODO:
-    cephMgrSelector: 'job="ceph"',
-
     cephExporterSelector: 'job="ceph"',
 
     cephSystemdUnitSelector: 'name=~"ceph.*"',
@@ -34,5 +31,8 @@ ceph {
 
     // Grafana url for Ceph-Cluster dashboard
     grafanaMgrDashboardURL: '',
+    // Grafana url for Ceph-Cluster dashboard
+    grafanaMdsDashboardURL: '',
+
   },
 }

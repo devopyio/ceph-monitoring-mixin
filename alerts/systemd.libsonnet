@@ -13,8 +13,7 @@
               severity: 'critical',
             },
             annotations: {
-              message: 'Systemd unit {{$labels.name}} is not active.',
-              component: 'general',
+              description: 'Systemd unit {{$labels.name}} is not active.',
               grafana_url: '%(grafanaClusterDashboardURL)s' % $._config,
             },
           },
