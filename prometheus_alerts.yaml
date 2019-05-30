@@ -12,13 +12,13 @@ groups:
     labels:
       severity: warning
   - alert: CephMgrIsMissingReplicas
-    expr: |
-      sum(up{job="ceph"}) < 3
-    for: 5m
     annotations:
       description: Ceph Manager is missing replicas.
       grafana_url: ""
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmgrismissingreplicas
+    expr: |
+      sum(up{job="ceph"}) < 3
+    for: 5m
     labels:
       severity: warning
 - name: ceph-mds-status
@@ -30,7 +30,7 @@ groups:
       grafana_url: ""
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephmdsmissingreplicas
     expr: |
-      sum(ceph_mds_metadata{job="ceph"} == 1) < 2
+      sum(ceph_mds_metadata{job="ceph"} == 1) < 1
     for: 5m
     labels:
       severity: warning

@@ -16,6 +16,9 @@ ceph {
     // Number of Ceph OSDs
     cephOsdCount: 3,
 
+    // Number of Ceph Mds
+    cephMdsCount: 1,
+
     // Link To Ceph Dashboard, this will add dashboard_url to every alert.
     // More info: http://docs.ceph.com/docs/master/mgr/dashboard/
     dashboardURL: '',
@@ -31,6 +34,7 @@ ceph {
 
     // Grafana url for Ceph-Cluster dashboard
     grafanaMgrDashboardURL: '',
+
     // Grafana url for Ceph-Cluster dashboard
     grafanaMdsDashboardURL: '',
 
