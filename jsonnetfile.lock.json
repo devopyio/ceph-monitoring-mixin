@@ -1,14 +1,15 @@
 {
-    "dependencies": [
-        {
-            "name": "ceph-mixins",
-            "source": {
-                "git": {
-                    "remote": "https://github.com/ceph/ceph-mixins",
-                    "subdir": ""
-                }
-            },
-            "version": "d22afe8c0da34490cb77e52a202eefcf4f62a869"
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/ceph/ceph-mixins",
+          "subdir": ""
         }
-    ]
+      },
+      "version": "69ef92275f786ea50d09720227c77da6e88b21c7",
+      "sum": "2tPo2eOY6PFiEFNxMGPBh2tAirvprXwMqCz2tIXDeBw="
+    }
+  ],
+  "legacyImports": false
 }
