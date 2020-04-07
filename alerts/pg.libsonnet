@@ -9,6 +9,7 @@
             expr: |||
               ceph_pg_total{%(cephExporterSelector)s} - ceph_pg_active{%(cephExporterSelector)s} != 0
             ||| % $._config,
+            'for': '2m',
             labels: {
               severity: 'critical',
             },
