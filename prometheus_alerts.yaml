@@ -214,6 +214,7 @@ groups:
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
     expr: |
       ceph_pg_total{job="ceph"} - ceph_pg_active{job="ceph"} != 0
+    for: 5m
     labels:
       severity: critical
   - alert: CephPGAreUnclean
