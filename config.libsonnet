@@ -1,4 +1,4 @@
-local ceph = import 'ceph-mixins/mixin.libsonnet';
+local ceph = import 'github.com/ceph/ceph-mixins/mixin.libsonnet';
 
 ceph {
   _config+:: {
