@@ -91,8 +91,8 @@ groups:
         the storage cluster or contact support.
       grafana_url: ""
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephosdnearfull
-    expr: |
-      (ceph_osd_metadata * on (ceph_daemon) group_left() (ceph_osd_stat_bytes_used / ceph_osd_stat_bytes)) >= 0.75
+    expr: (ceph_osd_metadata * on (ceph_daemon) group_left() (ceph_osd_stat_bytes_used
+      / ceph_osd_stat_bytes)) >= 0.85
     for: 40s
     labels:
       severity: warning
@@ -190,8 +190,7 @@ groups:
         or expand the storage cluster.
       grafana_url: ""
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephclusternearfull
-    expr: |
-      sum(ceph_osd_stat_bytes_used) / sum(ceph_osd_stat_bytes) > 0.75
+    expr: sum(ceph_osd_stat_bytes_used) / sum(ceph_osd_stat_bytes) > 0.90
     for: 30s
     labels:
       severity: warning
@@ -214,7 +213,7 @@ groups:
       runbook_url: https://github.com/devopyio/ceph-monitoring-mixin/tree/master/runbook.md#alert-name-cephpgarenotactive
     expr: |
       ceph_pg_total{job="ceph"} - ceph_pg_active{job="ceph"} != 0
-    for: 5m
+    for: 10m
     labels:
       severity: critical
   - alert: CephPGAreUnclean
